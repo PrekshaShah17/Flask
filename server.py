@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 from forms import SignUpForm
 
 app = Flask(__name__)
@@ -22,9 +22,12 @@ def blog():
     return render_template('blog.html', author="Preksha", sunny=False, posts=posts)
 
 
-@app.route('/signup')
+@app.route('/signup', methods=['GET', 'POST'])
 def signup():
     form = SignUpForm()
+    if form.is_submitted():
+        result = request.form
+        return render_template('user.html', result=result)
     return render_template('signup.html', form=form)
 
 
